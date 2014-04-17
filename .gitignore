@@ -13,6 +13,7 @@
 *.so
 *.so.*
 *.dylib
+*.so.dSYM
 
 # Executables
 *.exe
@@ -21,3 +22,6 @@
 *.i*86
 *.x86_64
 *.hex
+
+# Dependencies
+*.d
