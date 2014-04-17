@@ -21,7 +21,7 @@ DECLARE_MODULE_V1(
 /* The size of the buffer for transmitting channel data to the user. This is 
  * set to 81 (80 characters + \0) so that we do no linewrap on narrow terminals.
  */
-#define BUFSIZE 81
+#define CHANNEL_BUFSIZE 81
 
 static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[]);
 
@@ -36,7 +36,7 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 	char *target_name = parv[0];
 	user_t *target = NULL;
 
-	char buf[BUFSIZE] = "";
+	char buf[CHANNEL_BUFSIZE] = "";
 	size_t buf_len = strlen(buf);
 
 	if (!target_name)
@@ -66,7 +66,7 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 	/* We send 80-character wide lists of channels to the client if the target
 	 * has joined channels.
 	 */
-	if (MOWGLI_LIST_LENGTH(target->channels))
+	if (target->channels.count)
 	{
 
 		char buf[BUFSIZE];
@@ -74,7 +74,7 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 
 		mowgli_node_t *node;
 		
-		strncat(buf, "Channels:", BUFSIZE);
+		strncat(buf, "Channels:", CHANNEL_BUFSIZE);
 		buf_len = strlen(buf);
 
 		MOWGLI_LIST_FOREACH(node, target->channels.head)
@@ -85,15 +85,15 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 			size_t chan_len = strlen(chan_name);
 
 			/* Ensure we can fit the channel name in the buffer */
-			if (buf_len + 1 + chan_len >= BUFSIZE)
+			if (buf_len + 1 + chan_len >= CHANNEL_BUFSIZE)
 			{
 				command_success_nodata(si, "%s", buf);
-				strncpy(buf, "Channels:", BUFSIZE);
+				strncpy(buf, "Channels:", CHANNEL_BUFSIZE);
 				buf_len = strlen(buf);
 			}
 
 			strncat(buf, " ", 2);
-			strncat(buf, chan_name, BUFSIZE - buf_len);
+			strncat(buf, chan_name, CHANNEL_BUFSIZE - buf_len);
 			buf_len += chan_len;
 		}
 	
