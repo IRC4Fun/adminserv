@@ -57,9 +57,9 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 	command_success_nodata(si, "WHOIS information for: %s!%s@%s", target_name,
 		target->user, target->host);
 
-	command_success_nodata(si, "Cloaked Host: %s", target->chost);
-	command_success_nodata(si, "Visible Host: %s", target->vhost);
 	command_success_nodata(si, "Real name: %s", target->gecos);
+	command_success_nodata(si, "Cloaked Host: %s", target->chost);
+	command_success_nodata(si, "Visible Host: %s", target->vhost);	
 	command_success_nodata(si, "IP Address: %s", target->ip);
 	command_success_nodata(si, "Connected to: %s", target->server->name);
 
@@ -74,7 +74,7 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 
 		mowgli_node_t *node;
 		
-		strncat(buf, "Channels:", CHANNEL_BUFSIZE);
+		strncpy(buf, "Channels:", CHANNEL_BUFSIZE);
 		buf_len = strlen(buf);
 
 		MOWGLI_LIST_FOREACH(node, target->channels.head)

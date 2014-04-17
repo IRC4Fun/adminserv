@@ -38,7 +38,7 @@ void _modinit(module_t *module)
 	service_bind_command(adminserv, &as_help);
 };
 
-void _moddeinit()
+void _moddeinit(module_unload_intent_t intent)
 {
 	service_unbind_command(adminserv, &as_help);
 
