@@ -7,13 +7,15 @@
 
 #include "atheme.h"
 
+#include "adminserv.h"
+
 DECLARE_MODULE_V1(
-	"contrib/adminserv/main", false, _modinit, _moddeinit,
+	ADMINSERV_MAIN_MODULE_NAME, false, _modinit, _moddeinit,
 	"0.1",
 	"Barret Rennie <https://www.brennie.ca>"
 );
 
-service_t *adminserv;
+static service_t *adminserv;
 
 static void as_cmd_help(sourceinfo_t *si, int parc, char *parv[]);
 

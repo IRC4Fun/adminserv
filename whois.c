@@ -13,7 +13,7 @@
 #include "adminserv.h"
 
 DECLARE_MODULE_V1(
-	"contrib/adminserv/whois", false, _modinit, _moddeinit,
+	ADMINSERV_WHOIS_MODULE_NAME, false, _modinit, _moddeinit,
 	"0.1",
 	"Barret Rennie <https://www.brennie.ca>"
 );
