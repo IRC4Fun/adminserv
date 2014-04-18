@@ -25,7 +25,7 @@ static void as_cmd_kill(sourceinfo_t *si, int parc, char *parv[]);
 static command_t as_kill =
 {
 	"KILL", "Kill a user.",
-	ADMINSERV_CAN_KILL, 3, as_cmd_kill, { .path = "" }
+	ADMINSERV_CAN_KILL, 3, as_cmd_kill, { .path = "adminserv/kill" }
 };
 
 static void as_cmd_kill(sourceinfo_t *si, int parc, char *parv[])
@@ -82,3 +82,9 @@ void _moddeinit(module_unload_intent_t intent)
 		adminserv = NULL;
 	}
 }
+
+/* vim:cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
+ * vim:ts=8
+ * vim:sw=8
+ * vim:noexpandtab
+ */

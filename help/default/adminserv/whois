@@ -1,0 +1,8 @@
+Help for WHOIS:
+
+WHOIS allows you to view detailed information about users.
+
+Syntax: WHOIS <nick>
+
+Examples:
+	/msg &nick& whois foo

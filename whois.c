@@ -28,7 +28,7 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[]);
 static command_t as_whois =
 {
 	"WHOIS", "Get information about a user.",
-	ADMINSERV_CAN_WHOIS, 2, as_cmd_whois, { .path = "" }
+	ADMINSERV_CAN_WHOIS, 2, as_cmd_whois, { .path = "adminserv/whois" }
 };
 
 static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
@@ -125,3 +125,9 @@ void _moddeinit(module_unload_intent_t intent)
 {
 	service_named_unbind_command("AdminServ", &as_whois);
 }
+
+/* vim:cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
+ * vim:ts=8
+ * vim:sw=8
+ * vim:noexpandtab
+ */

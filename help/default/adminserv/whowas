@@ -1,0 +1,8 @@
+Help for WHOWAS:
+
+WHOWAS allows you to view detailed information about past users.
+
+Syntax: WHOWAS <nick>
+
+Examples:
+	/msg &nick& whowas foo

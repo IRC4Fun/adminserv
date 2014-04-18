@@ -6,14 +6,17 @@
 
 /* The individual module names. */
 #define ADMINSERV_MAIN_MODULE_NAME "contrib/adminserv/main"
-#define ADMINSERV_KILL_MODULE_NAME "contrib/adminserv/kill"
 #define ADMINSERV_AKILL_MODULE_NAME "contrib/adminserv/akill"
+#define ADMINSERV_INVITEME_MODULE_NAME "contrib/adminserv/inviteme"
+#define ADMINSERV_KILL_MODULE_NAME "contrib/adminserv/kill"
 #define ADMINSERV_WHOIS_MODULE_NAME "contrib/adminserv/whois"
 #define ADMINSERV_WHOWAS_MODULE_NAME "contrib/adminserv/whowas"
 
 /* Privileges for the various adminserv commands. */
 #define ADMINSERV_CAN_AKILL "adminserv:akill"
+#define ADMINSERV_CAN_AKILL_ANYMASK "adminserv:akill-anymask"
 #define ADMINSERV_CAN_KILL "adminserv:kill"
+#define ADMINSERV_CAN_INVITEME "adminserv:inviteme"
 #define ADMINSERV_CAN_WHOIS "adminserv:whois"
 #define ADMINSERV_CAN_WHOWAS "adminserv:whowas"
 

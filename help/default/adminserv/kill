@@ -1,0 +1,10 @@
+Help for KILL:
+
+KILL allows you to kill other users. You can only kill users
+with &nick& privileges less than your own. You cannot use this
+command to kill IRC operators or network admins.
+
+Syntax: KILL <nick> <reason>
+
+Examples:
+	/msg &nick& KILL foo reason

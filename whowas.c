@@ -29,7 +29,7 @@ static void as_cmd_whowas(sourceinfo_t *si, int parc, char *parv[]);
 static command_t as_whowas =
 {
 	"WHOWAS", "Get information about a past user.",
-	ADMINSERV_CAN_WHOWAS, 2, as_cmd_whowas, { .path = "" }
+	ADMINSERV_CAN_WHOWAS, 2, as_cmd_whowas, { .path = "adminserv/whowas" }
 };
 
 /* A WHOWAS request entry. We need to keep these around so that we know who to
@@ -88,7 +88,7 @@ static void handle_whowas_user(sourceinfo_t *si, int parc, char *parv[])
 			if (request->count == 1)
 				notice(adminserv->nick, origin->nick, "WHOWAS Results for %s:", request->target);
 			else
-				notice(adminserv->nick, origin->nick, "----------");
+				notice(adminserv->nick, origin->nick, " ");
 
 			notice(adminserv->nick, origin->nick, "%d: %s!%s@%s (%s)", request->count, nick, host, user, gecos);
 		}
@@ -216,7 +216,17 @@ void handle_err_wasnosuchnick(sourceinfo_t *si, int parc, char *parv[])
 
 void _modinit(module_t *module)
 {
+	if (!module_find_published("modules/protocol/charybdis"))
+	{
+		slog(LG_ERROR, "module modules/protocol/charybdis is not loaded; modules/contrib/adminserv/whowas requires this module.");
+		slog(LG_ERROR, "either load this module (if you are connected to charybdis) or modules/contrib/adminserv/whowas from your atheme.conf");
+		module->mflags = MODTYPE_FAIL;
+
+		return;
+	}
+
 	adminserv = service_find(ADMINSERV);
+
 	service_bind_command(adminserv, &as_whowas);
 
 	request_heap = sharedheap_get(sizeof(whowas_request_t));
@@ -241,12 +251,12 @@ void _moddeinit(module_unload_intent_t intent)
 
 		service_unbind_command(adminserv, &as_whowas);
 
-		pcommand_delete("314");
-		pcommand_delete("338");
-		pcommand_delete("312");
-		pcommand_delete("330");
-		pcommand_delete("369");
-		pcommand_delete("406");
+		pcommand_delete(RPL_WHOWAS_USER);
+		pcommand_delete(RPL_WHOWAS_ACTUALLY);
+		pcommand_delete(RPL_WHOWAS_SERVER);
+		pcommand_delete(RPL_WHOWAS_LOGGEDIN);
+		pcommand_delete(RPL_ENDOF_WHOWAS);
+		pcommand_delete(RPL_ERR_WASNOSUCHNICK);
 
 		/* Free all remaining requests. */
 		while (node)
@@ -270,3 +280,9 @@ void _moddeinit(module_unload_intent_t intent)
 		adminserv = NULL;
 	}
 }
+
+/* vim:cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
+ * vim:ts=8
+ * vim:sw=8
+ * vim:noexpandtab
+ */

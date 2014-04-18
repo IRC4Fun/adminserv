@@ -1,25 +1,55 @@
-3a4,5
->  * Modified 2014 Barret Rennie <barret.rennie@gmail.com> to add AdminServ
->  * privileges.
-11a14
-> #include "../contrib/adminserv/adminserv.h"
-110a114,123
-> static struct priv_category adminserv_privs = {
-> 	N_("AdminServ"),
-> 	{
-> 		{ ADMINSERV_CAN_WHOIS, N_("view detailed user information") },
-> 		{ ADMINSERV_CAN_WHOWAS, N_("view detailed WHOWAS information") },
-> 		{ ADMINSERV_CAN_KILL, N_("kill users") },
-> 		{ ADMINSERV_CAN_AKILL, N_("add or remove autokills") }
-> 	}
-> };
-> 
-112c125
-< 	&nickserv_privs, &chanserv_privs, &general_privs, &operserv_privs, &groupserv_privs,
----
-> 	&nickserv_privs, &chanserv_privs, &general_privs, &operserv_privs, &groupserv_privs, &adminserv_privs
-216c229
-<  */
----
->  */
-\ No newline at end of file
+*** ../../../operserv/specs.c	2014-04-18 12:59:01.000000000 -0600
+--- specs.c	2014-04-18 14:55:33.000000000 -0600
+***************
+*** 1,6 ****
+--- 1,8 ----
+  /*
+   * Copyright (c) 2005-2006 Patrick Fish, et al
+   * Copyright (c) 2011 William Pitcock <nenolod@atheme.org>.
++  * Modified 2014 Barret Rennie <barret.rennie@gmail.com> to add AdminServ
++  * privileges.
+   *
+   * Rights to this code are documented in doc/LICENSE.
+   *
+***************
+*** 9,14 ****
+--- 11,17 ----
+  
+  #include "atheme.h"
+  #include "../groupserv/main/groupserv_common.h"
++ #include "../contrib/adminserv/adminserv.h"
+  
+  DECLARE_MODULE_V1
+  (
+*************** static struct priv_category groupserv_pr
+*** 108,115 ****
+  	}
+  };
+  
+  static struct priv_category *priv_categories[] = {
+! 	&nickserv_privs, &chanserv_privs, &general_privs, &operserv_privs, &groupserv_privs,
+  };
+  
+  static void os_cmd_specs(sourceinfo_t *si, int parc, char *parv[])
+--- 111,131 ----
+  	}
+  };
+  
++ static struct priv_category adminserv_privs = {
++ 	N_("AdminServ"),
++ 	{
++ 		{ ADMINSERV_CAN_WHOIS, N_("view detailed user information") },
++ 		{ ADMINSERV_CAN_WHOWAS, N_("view detailed WHOWAS information") },
++ 		{ ADMINSERV_CAN_KILL, N_("kill users") },
++ 		{ ADMINSERV_CAN_AKILL, N_("add or remove autokills") },
++ 		{ ADMINSERV_CAN_AKILL_ANYMASK, N_("add or remove autokills with any mask") },
++ 		{ ADMINSERV_CAN_INVITEME, N_("be invited to channels") },
++ 		{ NULL, NULL },
++ 	}
++ };
++ 
+  static struct priv_category *priv_categories[] = {
+! 	&nickserv_privs, &chanserv_privs, &general_privs, &operserv_privs, &groupserv_privs, &adminserv_privs
+  };
+  
+  static void os_cmd_specs(sourceinfo_t *si, int parc, char *parv[])

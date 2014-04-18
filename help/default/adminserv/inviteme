@@ -1,0 +1,8 @@
+Help for INVITEME:
+
+INVITEME allows you to be invited to channels.
+
+Syntax: INVITEME <#channel>
+
+Examples:
+	/msg &nick& INVITEME #channel
