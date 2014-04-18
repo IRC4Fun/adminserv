@@ -24,6 +24,14 @@ DECLARE_MODULE_V1(
 
 static service_t *adminserv;
 
+static void as_cmd_whowas(sourceinfo_t *si, int parc, char *parv[]);
+
+static command_t as_whowas =
+{
+	"WHOWAS", "Get information about a past user.",
+	ADMINSERV_CAN_WHOWAS, 2, as_cmd_whowas, { .path = "" }
+};
+
 /* A WHOWAS request entry. We need to keep these around so that we know who to
  * forward the results to and so that we can handle more than one WHOWAS
  * request at once.
@@ -205,12 +213,6 @@ void handle_err_wasnosuchnick(sourceinfo_t *si, int parc, char *parv[])
 		notice(adminserv->nick, origin->nick, "No such nick: %s", request->target);
 	}
 }
-
-command_t as_whowas =
-{
-	"WHOWAS", "Get information about a past user.",
-	ADMINSERV_CAN_WHOWAS, 2, as_cmd_whowas, { .path = "" }
-};
 
 void _modinit(module_t *module)
 {

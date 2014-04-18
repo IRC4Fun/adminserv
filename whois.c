@@ -25,7 +25,7 @@ DECLARE_MODULE_V1(
 
 static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[]);
 
-command_t as_whois =
+static command_t as_whois =
 {
 	"WHOIS", "Get information about a user.",
 	ADMINSERV_CAN_WHOIS, 2, as_cmd_whois, { .path = "" }
@@ -41,9 +41,7 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 
 	if (!target_name)
 	{
-		command_fail(si, fault_needmoreparams, STR_INSUFFICIENT_PARAMS,
-			"WHOIS");
-
+		command_fail(si, fault_needmoreparams, STR_INSUFFICIENT_PARAMS, "WHOIS");
 		command_fail(si, fault_needmoreparams, "Syntax: WHOIS <target>");
 		return;
 	}
