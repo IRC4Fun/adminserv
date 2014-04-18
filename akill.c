@@ -29,7 +29,7 @@ static void as_cmd_akill_list(sourceinfo_t *si, int parc, char *parv[]);
 static void as_cmd_akill_sync(sourceinfo_t *si, int parc, char *parv[]);
 
 
-command_t as_akill = { "AKILL", N_("Manages network bans."), PRIV_AKILL, 3, as_cmd_akill, { .path = "adminserv/akill" } };
+command_t as_akill = { "AKILL", N_("Manages network bans."), ADMINSERV_CAN_AKILL, 3, as_cmd_akill, { .path = "adminserv/akill" } };
 
 command_t as_akill_add = { "ADD", N_("Adds a network ban"), AC_NONE, 2, as_cmd_akill_add, { .path = "" } };
 command_t as_akill_del = { "DEL", N_("Deletes a network ban"), AC_NONE, 1, as_cmd_akill_del, { .path = "" } };
@@ -250,7 +250,7 @@ static void as_cmd_akill_add(sourceinfo_t *si, int parc, char *parv[])
 				i++;
 		}
 
-		if (i < 4 && (strchr(kuser, '*') || strchr(kuser, '?')) && !has_priv(si, PRIV_AKILL_ANYMASK))
+		if (i < 4 && (strchr(kuser, '*') || strchr(kuser, '?')) && !has_priv(si, ADMINSERV_CAN_AKILL_ANYMASK))
 		{
 			command_fail(si, fault_badparams, _("Invalid user@host: \2%s@%s\2. At least four non-wildcard characters are required."), kuser, khost);
 			return;
