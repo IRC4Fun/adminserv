@@ -86,7 +86,7 @@ static void handle_whowas_user(sourceinfo_t *si, int parc, char *parv[])
 			const char *gecos = parv[5];
 
 			if (request->count == 1)
-				notice(adminserv->nick, origin->nick, "WHOWAS Results for %s:", request->target);
+				notice(adminserv->nick, origin->nick, _("WHOWAS Results for %s:"), request->target);
 			else
 				notice(adminserv->nick, origin->nick, " ");
 
@@ -110,7 +110,7 @@ static void handle_whowas_actually(sourceinfo_t *si, int parc, char *parv[])
 		user_t *origin = user_find_named(request->origin);
 
 		if (origin)
-			notice(adminserv->nick, origin->nick, "%d: Actually using host %s", request->count, parv[2]);
+			notice(adminserv->nick, origin->nick, _("%d: Actually using host %s"), request->count, parv[2]);
 	}
 }
 
@@ -132,7 +132,7 @@ static void handle_whowas_server(sourceinfo_t *si, int parc, char *parv[])
 		const char *ts = parv[3];
 
 		if (origin)
-			notice(adminserv->nick, origin->nick, "%d: Disconnected from %s at %s UTC", request->count, server, ts);
+			notice(adminserv->nick, origin->nick, _("%d: Disconnected from %s at %s UTC"), request->count, server, ts);
 	}
 }
 
@@ -151,7 +151,7 @@ static void handle_whowas_loggedin(sourceinfo_t *si, int parc, char *parv[])
 		user_t *origin = user_find_named(request->origin);
 
 		if (origin)
-			notice(adminserv->nick, origin->nick, "%d: Was logged in as %s", request->count, parv[2]);
+			notice(adminserv->nick, origin->nick, _("%d: Was logged in as %s"), request->count, parv[2]);
 	}
 }
 
@@ -170,7 +170,7 @@ static void handle_endof_whowas(sourceinfo_t *si, int parc, char *parv[])
 		user_t *origin = user_find_named(request->origin);
 
 		if (origin)
-			notice(adminserv->nick, origin->nick, "End of WHOWAS for %s (%u results)", request->target, request->count);
+			notice(adminserv->nick, origin->nick, _("End of WHOWAS for %s (%u results)"), request->target, request->count);
 
 		free_whowas_request(&request);
 		mowgli_node_delete(head, whowas_requests);
@@ -185,19 +185,25 @@ static void as_cmd_whowas(sourceinfo_t *si, int parc, char *parv[])
 	mowgli_node_t *node;
 	
 	if (!si->su)
-		return;
+		command_fail(si, fault_noprivs, _("\2%s\2 can only be excuted via IRC."), "INVITEME");
 
-	/* Send a WHOWAS request from AdminServ to the current uplink. */
-	sts(":%s WHOWAS %s 5 %s", CLIENT_NAME(adminserv->me), target_name, curr_uplink->name);
+	else
+	{
+		/* Send a WHOWAS request from AdminServ to the current uplink. */
+		sts(":%s WHOWAS %s 5 %s", CLIENT_NAME(adminserv->me), target_name, curr_uplink->name);
 
-	request = mowgli_heap_alloc(request_heap);
-	node = mowgli_node_create();
-	
-	request->origin = mowgli_strdup(si->su->nick);
-	request->target = mowgli_strdup(target_name);
-	request->count = 0;
+		request = mowgli_heap_alloc(request_heap);
+		node = mowgli_node_create();
+		
+		request->origin = mowgli_strdup(si->su->nick);
+		request->target = mowgli_strdup(target_name);
+		request->count = 0;
 
-	mowgli_node_add(request, node, whowas_requests);
+		mowgli_node_add(request, node, whowas_requests);
+
+
+		logcommand(si, CMDLOG_DO, "WHOWAS: \2%s\2", target);
+	}
 }
 
 void handle_err_wasnosuchnick(sourceinfo_t *si, int parc, char *parv[])
@@ -210,7 +216,7 @@ void handle_err_wasnosuchnick(sourceinfo_t *si, int parc, char *parv[])
 		if (!origin)
 			return;
 
-		notice(adminserv->nick, origin->nick, "No such nick: %s", request->target);
+		notice(adminserv->nick, origin->nick, _("No such nick: %s"), request->target);
 	}
 }
 

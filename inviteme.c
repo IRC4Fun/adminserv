@@ -3,6 +3,8 @@
  * Rights to this code are as documented in LICENSE
  *
  * A service for atheme offering "psuedo-oper" services.
+ *
+ * The inviteme module allows the user to be invited to channels.
  */
 
 #include "atheme.h"

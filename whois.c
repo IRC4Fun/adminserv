@@ -39,81 +39,85 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 	char buf[CHANNEL_BUFSIZE] = "";
 	size_t buf_len = strlen(buf);
 
-	if (!target_name)
+	if (!si->su)
+		command_fail(si, fault_noprivs, _("\2%s\2 can only be excuted via IRC."), "WHOIS");
+
+	else if (!target_name)
 	{
 		command_fail(si, fault_needmoreparams, STR_INSUFFICIENT_PARAMS, "WHOIS");
-		command_fail(si, fault_needmoreparams, "Syntax: WHOIS <target>");
-		return;
+		command_fail(si, fault_needmoreparams, _("Syntax: WHOIS <target>"));
 	}
+	else if ((target = user_find_named(target_name)) == NULL)
+		command_fail(si, fault_nosuch_target, _("No such user: %s"), target_name);
 
-	if ((target = user_find_named(target_name)) == NULL)
+	else
 	{
-		command_fail(si, fault_nosuch_target, "No such user: %s", target_name);
-		return;
-	}
+		command_success_nodata(si, _("WHOIS information for: %s!%s@%s"), target_name,
+			target->user, target->host);
 
-	command_success_nodata(si, "WHOIS information for: %s!%s@%s", target_name,
-		target->user, target->host);
+		command_success_nodata(si, _("Real name: %s"), target->gecos);
+		command_success_nodata(si, _("Cloaked Host: %s"), target->chost);
+		command_success_nodata(si, _("Visible Host: %s"), target->vhost);	
+		command_success_nodata(si, _("IP Address: %s"), target->ip);
+		command_success_nodata(si, _("Connected to: %s"), target->server->name);
 
-	command_success_nodata(si, "Real name: %s", target->gecos);
-	command_success_nodata(si, "Cloaked Host: %s", target->chost);
-	command_success_nodata(si, "Visible Host: %s", target->vhost);	
-	command_success_nodata(si, "IP Address: %s", target->ip);
-	command_success_nodata(si, "Connected to: %s", target->server->name);
-
-	/* We send 80-character wide lists of channels to the client if the target
-	 * has joined channels.
-	 */
-	if (target->channels.count)
-	{
-
-		char buf[BUFSIZE];
-		size_t buf_len;
-
-		mowgli_node_t *node;
-		
-		strncpy(buf, "Channels:", CHANNEL_BUFSIZE);
-		buf_len = strlen(buf);
-
-		MOWGLI_LIST_FOREACH(node, target->channels.head)
+		/* We send 80-character wide lists of channels to the client if the target
+		 * has joined channels.
+		 */
+		if (target->channels.count)
 		{
-			const chanuser_t *cu = node->data;
-			const char *chan_name = cu->chan->name;
 
-			size_t chan_len = strlen(chan_name);
+			char buf[BUFSIZE];
+			size_t buf_len;
 
-			/* Ensure we can fit the channel name in the buffer */
-			if (buf_len + 1 + chan_len >= CHANNEL_BUFSIZE)
+			mowgli_node_t *node;
+			
+			strncpy(buf, "Channels:", CHANNEL_BUFSIZE);
+			buf_len = strlen(buf);
+
+			MOWGLI_LIST_FOREACH(node, target->channels.head)
 			{
-				command_success_nodata(si, "%s", buf);
-				strncpy(buf, "Channels:", CHANNEL_BUFSIZE);
-				buf_len = strlen(buf);
+				const chanuser_t *cu = node->data;
+				const char *chan_name = cu->chan->name;
+
+				size_t chan_len = strlen(chan_name);
+
+				/* Ensure we can fit the channel name in the buffer */
+				if (buf_len + 1 + chan_len >= CHANNEL_BUFSIZE)
+				{
+					command_success_nodata(si, "%s", buf);
+					strncpy(buf, "Channels:", CHANNEL_BUFSIZE);
+					buf_len = strlen(buf);
+				}
+
+				strncat(buf, " ", 2);
+				strncat(buf, chan_name, CHANNEL_BUFSIZE - buf_len);
+				buf_len += chan_len;
 			}
-
-			strncat(buf, " ", 2);
-			strncat(buf, chan_name, CHANNEL_BUFSIZE - buf_len);
-			buf_len += chan_len;
+		
+			command_success_nodata(si, "%s", buf);
+			buf[0] = '\0';
+			buf_len = 0;
 		}
-	
-		command_success_nodata(si, "%s", buf);
-		buf[0] = '\0';
-		buf_len = 0;
+		else
+			command_success_nodata(si, _("User is not joined to any channels."));
+
+		if (target->myuser)
+			command_success_nodata(si, _("User has identified for account %s"),
+				target->myuser->ent.name);
+		else
+			command_success_nodata(si, _("User has not identified.");
+
+		if (is_admin(target))
+			command_success_nodata(si, _("User is an administrator."));
+		else if (is_ircop(target))
+			command_success_nodata(si, _("User is an operator."));
+
+		command_success_nodata(si, _("End of WHOIS."));
+
+
+		logcommand(si, CMDLOG_DO, "WHOIS: \2%s\2", target);
 	}
-	else
-		command_success_nodata(si, "User is not joined to any channels.");
-
-	if (target->myuser)
-		command_success_nodata(si, "User has identified for account %s",
-			target->myuser->ent.name);
-	else
-		command_success_nodata(si, "User has not identified.");
-
-	if (is_admin(target))
-		command_success_nodata(si, "User is an administrator.");
-	else if (is_ircop(target))
-		command_success_nodata(si, "User is an operator.");
-
-	command_success_nodata(si, "End of WHOIS.");
 }
 
 void _modinit(module_t *module)

@@ -35,21 +35,22 @@ static void as_cmd_kill(sourceinfo_t *si, int parc, char *parv[])
 	user_t *target = NULL;
 	user_t *source = si->su;
 
-	if (!source) return;
+	if (!source)
+		command_fail(si, fault_noprivs, _("\2%s\2 can only be excuted via IRC."), "KILL");
 
-	if (!target_name || !reason)
+	else if (!target_name || !reason)
 	{
 		command_fail(si, fault_needmoreparams, STR_INSUFFICIENT_PARAMS, "KILL");
-		command_fail(si, fault_needmoreparams, "Syntax: KILL <target> <reason>");
+		command_fail(si, fault_needmoreparams, _("Syntax: KILL <target> <reason>"));
 	}
 	else if ((target = user_find_named(target_name)) == NULL)
-		command_fail(si, fault_nosuch_target, "No such user: %s", target_name);
+		command_fail(si, fault_nosuch_target, _("No such user: %s"), target_name);
 
 	else if (service_find_nick(target_name) != NULL)
-		command_fail(si, fault_noprivs, "Cannot KILL: %s is a network service.", target_name);
+		command_fail(si, fault_noprivs, _("Cannot KILL: %s is a network service."), target_name);
 
 	else if (is_admin(target) || is_ircop(target))
-		command_fail(si, fault_noprivs, "Cannot KILL: %s is an administrator or operator.", target_name);
+		command_fail(si, fault_noprivs, _("Cannot KILL: %s is an administrator or operator."), target_name);
 
 	/* A user can only use KILL on a user that has less AdminServ privileges
 	 * than the user.
@@ -57,11 +58,12 @@ static void as_cmd_kill(sourceinfo_t *si, int parc, char *parv[])
 	else if (has_priv_user(target, ADMINSERV_CAN_KILL)
 		&& !(has_priv_user(source, ADMINSERV_CAN_AKILL) && !has_priv_user(target, ADMINSERV_CAN_AKILL)))
 
-		command_fail(si, fault_noprivs, "Cannot KILL: you have insufficient privileges to kill %s.", target_name);
+		command_fail(si, fault_noprivs, _("Cannot KILL: you have insufficient privileges to kill %s."), target_name);
 
 	else
 	{
 		kill_user(adminserv->me, target, "%s (Requested by %s.)", reason, source->nick);
+		logcommand(si, CMDLOG_DO, "KILL: \2%s\2", target_name);
 		command_success_nodata(si, "Killed %s.", target_name);
 	}
 }
