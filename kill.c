@@ -4,7 +4,7 @@
  *
  * adminserv: A service for atheme offering "psuedo-oper" services.
  *
- * The whois module offers kill capabilities to users with the
+ * The kill module offers kill capabilities to users with the
  * adminserv:kill privilege.
  */
 
