@@ -44,7 +44,7 @@
 + 		{ ADMINSERV_CAN_AKILL, N_("add or remove autokills") },
 + 		{ ADMINSERV_CAN_AKILL_ANYMASK, N_("add or remove autokills with any mask") },
 + 		{ ADMINSERV_CAN_INVITEME, N_("be invited to channels") },
-+ 		{ ADMINSERC_CAN_MODE, N_("set channel modes") },
++ 		{ ADMINSERV_CAN_MODE, N_("set channel modes") },
 + 		{ NULL, NULL },
 + 	}
 + };
