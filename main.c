@@ -55,7 +55,7 @@ static void as_cmd_help(sourceinfo_t *si, int parc, char *parv[])
 
 void _modinit(module_t *module)
 {
-	adminserv = service_add("AdminServ", NULL);
+	adminserv = service_add(ADMINSERV, NULL);
 
 	service_bind_command(adminserv, &as_help);
 };

@@ -118,12 +118,12 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 
 void _modinit(module_t *module)
 {
-	service_named_bind_command("AdminServ", &as_whois);
+	service_named_bind_command(ADMINSERV, &as_whois);
 }
 
 void _moddeinit(module_unload_intent_t intent)
 {
-	service_named_unbind_command("AdminServ", &as_whois);
+	service_named_unbind_command(ADMINSERV, &as_whois);
 }
 
 /* vim:cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
