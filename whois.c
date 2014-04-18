@@ -106,7 +106,7 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 			command_success_nodata(si, _("User has identified for account %s"),
 				target->myuser->ent.name);
 		else
-			command_success_nodata(si, _("User has not identified.");
+			command_success_nodata(si, _("User has not identified."));
 
 		if (is_admin(target))
 			command_success_nodata(si, _("User is an administrator."));
@@ -116,7 +116,7 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])
 		command_success_nodata(si, _("End of WHOIS."));
 
 
-		logcommand(si, CMDLOG_DO, "WHOIS: \2%s\2", target);
+		logcommand(si, CMDLOG_DO, "WHOIS: \2%s\2", target_name);
 	}
 }
 

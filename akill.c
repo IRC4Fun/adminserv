@@ -17,7 +17,7 @@ DECLARE_MODULE_V1
 (
 	ADMINSERV_AKILL_MODULE_NAME, false, _modinit, _moddeinit,
 	PACKAGE_STRING,
-	"Atheme Development Group <http://www.atheme.org>; Barret Rennie <https://brennie.ca>"
+	"Atheme Development Group <http://www.atheme.org>; Barret Rennie <https://www.brennie.ca>"
 );
 
 static void as_akill_newuser(hook_user_nick_t *data);

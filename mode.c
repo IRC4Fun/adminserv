@@ -8,12 +8,13 @@
  */
 
 #include "atheme.h"
+#include "adminserv.h"
 
 DECLARE_MODULE_V1
 (
-	"operserv/mode", false, _modinit, _moddeinit,
+	ADMINSERV_MODE_MODULE_NAME, false, _modinit, _moddeinit,
 	PACKAGE_STRING,
-	"Atheme Development Group <http://www.atheme.org>"
+	"Atheme Development Group <http://www.atheme.org>; Barret Rennie <https://www.brennie.ca>"
 );
 
 static void as_cmd_mode(sourceinfo_t *si, int parc, char *parv[]);

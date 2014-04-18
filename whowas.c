@@ -202,7 +202,7 @@ static void as_cmd_whowas(sourceinfo_t *si, int parc, char *parv[])
 		mowgli_node_add(request, node, whowas_requests);
 
 
-		logcommand(si, CMDLOG_DO, "WHOWAS: \2%s\2", target);
+		logcommand(si, CMDLOG_DO, "WHOWAS: \2%s\2", target_name);
 	}
 }
 
