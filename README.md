@@ -43,6 +43,7 @@ AdminServ adds the following privileges:
  * `adminserv:akill-anymask`
  * `adminserv:kill`
  * `adminserv:inviteme`
+ * `adminserv:mode`
  * `adminserv:whois`
  * `adminserv:whowas`
 
@@ -67,6 +68,9 @@ higher adminserv privileges.
 ###INVITEME
 Be invited to channels. This command requires the `adminserv:inviteme`
 privilege.
+
+###MODE
+Put modes on channels. This command requires teh `adminserv:mode` privilege.
 
 ###WHOIS
 View detailed WHOIS information about users. This command requires the

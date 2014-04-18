@@ -1,5 +1,5 @@
-*** ../../../operserv/specs.c	2014-04-18 12:59:01.000000000 -0600
---- specs.c	2014-04-18 14:55:33.000000000 -0600
+*** ../../../operserv/specs.c	2014-04-18 15:51:16.000000000 -0600
+--- specs.c	2014-04-18 15:52:21.000000000 -0600
 ***************
 *** 1,6 ****
 --- 1,8 ----
@@ -31,7 +31,7 @@
   };
   
   static void os_cmd_specs(sourceinfo_t *si, int parc, char *parv[])
---- 111,131 ----
+--- 111,132 ----
   	}
   };
   
@@ -44,6 +44,7 @@
 + 		{ ADMINSERV_CAN_AKILL, N_("add or remove autokills") },
 + 		{ ADMINSERV_CAN_AKILL_ANYMASK, N_("add or remove autokills with any mask") },
 + 		{ ADMINSERV_CAN_INVITEME, N_("be invited to channels") },
++ 		{ ADMINSERC_CAN_MODE, N_("set channel modes") },
 + 		{ NULL, NULL },
 + 	}
 + };

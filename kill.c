@@ -56,7 +56,7 @@ static void as_cmd_kill(sourceinfo_t *si, int parc, char *parv[])
 	 * than the user.
 	 */
 	else if (has_priv_user(target, ADMINSERV_CAN_KILL)
-		&& !(has_priv_user(source, ADMINSERV_CAN_AKILL) && !has_priv_user(target, ADMINSERV_CAN_AKILL)))
+		&& !(has_priv_user(source, ADMINSERV_CAN_MODE) && !has_priv_user(target, ADMINSERV_CAN_MODE)))
 
 		command_fail(si, fault_noprivs, _("Cannot KILL: you have insufficient privileges to kill %s."), target_name);
 
