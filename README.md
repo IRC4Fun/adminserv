@@ -24,3 +24,19 @@ cd adminserv
 make
 make install
 ````
+
+OperServ SPECS
+--------------
+
+To update OperServ to add privilege information from AdminServ, you must patch
+OperServ to include the privileges. This patch is `operserv/specs.patch` and
+can be applied as follows:
+
+````
+cd atheme/modules/operserv
+patch specs.c ../contrib/adminserv/operserv/specs.patch
+make specs.so
+make install
+````
+
+Don't forget to reload the module in atheme afterwards.

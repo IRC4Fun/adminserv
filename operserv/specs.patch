@@ -1,0 +1,25 @@
+3a4,5
+>  * Modified 2014 Barret Rennie <barret.rennie@gmail.com> to add AdminServ
+>  * privileges.
+11a14
+> #include "../contrib/adminserv/adminserv.h"
+110a114,123
+> static struct priv_category adminserv_privs = {
+> 	N_("AdminServ"),
+> 	{
+> 		{ ADMINSERV_CAN_WHOIS, N_("view detailed user information") },
+> 		{ ADMINSERV_CAN_WHOWAS, N_("view detailed WHOWAS information") },
+> 		{ ADMINSERV_CAN_KILL, N_("kill users") },
+> 		{ ADMINSERV_CAN_AKILL, N_("add or remove autokills") }
+> 	}
+> };
+> 
+112c125
+< 	&nickserv_privs, &chanserv_privs, &general_privs, &operserv_privs, &groupserv_privs,
+---
+> 	&nickserv_privs, &chanserv_privs, &general_privs, &operserv_privs, &groupserv_privs, &adminserv_privs
+216c229
+<  */
+---
+>  */
+\ No newline at end of file

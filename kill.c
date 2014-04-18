@@ -24,7 +24,7 @@ static void as_cmd_kill(sourceinfo_t *si, int parc, char *parv[]);
 
 static command_t as_kill =
 {
-	"KILL", "Get information about a user.",
+	"KILL", "Kill a user.",
 	ADMINSERV_CAN_KILL, 3, as_cmd_kill, { .path = "" }
 };
 
