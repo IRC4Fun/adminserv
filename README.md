@@ -7,7 +7,7 @@ Compatability
 -------------
 
 This has only been tested with Charybdis and relies on the
-modules/protocols/charybdis module for WHOWAS requests. If you try to load
+modules/protocol/charybdis module for WHOWAS requests. If you try to load
 modules/contrib/adminserv/whowas without first loading the charybdis module,
 module loading will fail. Only load the whowas module after loading the
 Charybdis module and only if you are actually connected to Charybdis.

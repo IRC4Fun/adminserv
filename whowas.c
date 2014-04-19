@@ -222,7 +222,7 @@ void handle_err_wasnosuchnick(sourceinfo_t *si, int parc, char *parv[])
 
 void _modinit(module_t *module)
 {
-	if (!module_find_published("modules/protocol/charybdis"))
+	if (!module_find_published("protocol/charybdis"))
 	{
 		slog(LG_ERROR, "module modules/protocol/charybdis is not loaded; modules/contrib/adminserv/whowas requires this module.");
 		slog(LG_ERROR, "either load this module (if you are connected to charybdis) or modules/contrib/adminserv/whowas from your atheme.conf");
