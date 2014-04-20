@@ -28,7 +28,7 @@ static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[]);
 static command_t as_whois =
 {
 	"WHOIS", "Get information about a user.",
-	ADMINSERV_CAN_WHOIS, 2, as_cmd_whois, { .path = "adminserv/whois" }
+	ADMINSERV_CAN_WHOIS, 1, as_cmd_whois, { .path = "adminserv/whois" }
 };
 
 static void as_cmd_whois(sourceinfo_t *si, int parc, char *parv[])

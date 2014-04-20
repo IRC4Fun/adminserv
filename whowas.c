@@ -29,7 +29,7 @@ static void as_cmd_whowas(sourceinfo_t *si, int parc, char *parv[]);
 static command_t as_whowas =
 {
 	"WHOWAS", "Get information about a past user.",
-	ADMINSERV_CAN_WHOWAS, 2, as_cmd_whowas, { .path = "adminserv/whowas" }
+	ADMINSERV_CAN_WHOWAS, 1, as_cmd_whowas, { .path = "adminserv/whowas" }
 };
 
 /* A WHOWAS request entry. We need to keep these around so that we know who to
