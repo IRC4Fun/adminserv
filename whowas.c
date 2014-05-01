@@ -46,10 +46,10 @@ typedef struct
 /* The list of outstanding WHOWAS requests, with the oldest request at the
  * head of the list.
  */
-static mowgli_list_t *whowas_requests;
+static mowgli_list_t *whowas_requests = NULL;
 
 /* A heap for allocating multiple whowas_request_t. */
-static mowgli_heap_t *request_heap;
+static mowgli_heap_t *request_heap = NULL;
 
 static void free_whowas_request(whowas_request_t **request)
 {
@@ -280,8 +280,6 @@ void _moddeinit(module_unload_intent_t intent)
 		}
 
 		mowgli_list_free(whowas_requests);
-
-		mowgli_heap_destroy(request_heap);
 
 		adminserv = NULL;
 	}
