@@ -225,7 +225,7 @@ void _modinit(module_t *module)
 	if (!module_find_published("protocol/charybdis"))
 	{
 		slog(LG_ERROR, "module modules/protocol/charybdis is not loaded; modules/contrib/adminserv/whowas requires this module.");
-		slog(LG_ERROR, "either load this module (if you are connected to charybdis) or modules/contrib/adminserv/whowas from your atheme.conf");
+		slog(LG_ERROR, "either load this module (if you are connected to charybdis) or remove modules/contrib/adminserv/whowas from your atheme.conf");
 		module->mflags = MODTYPE_FAIL;
 
 		return;
