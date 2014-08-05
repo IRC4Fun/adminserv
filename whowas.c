@@ -95,25 +95,6 @@ static void handle_whowas_user(sourceinfo_t *si, int parc, char *parv[])
 	}
 }
 
-static void handle_whowas_actually(sourceinfo_t *si, int parc, char *parv[])
-{
-	if (!whowas_requests)
-		slog(LG_DEBUG, ADMINSERV_WHOWAS_MODULE_NAME " received RPL_WHOWASACTUALY, but whowas_requests = NULL");
-
-	else if (!whowas_requests->head)
-		slog(LG_DEBUG, ADMINSERV_WHOWAS_MODULE_NAME " recieved RPL_WHOWASACTUALLY, but whowas_requests->head = NULL");
-
-	else
-	{
-		mowgli_node_t *head = whowas_requests->head;
-		whowas_request_t *request = head->data;
-		user_t *origin = user_find_named(request->origin);
-
-		if (origin)
-			notice(adminserv->nick, origin->nick, _("%d: Actually using host %s"), request->count, parv[2]);
-	}
-}
-
 static void handle_whowas_server(sourceinfo_t *si, int parc, char *parv[])
 {
 	if (!whowas_requests)
@@ -133,25 +114,6 @@ static void handle_whowas_server(sourceinfo_t *si, int parc, char *parv[])
 
 		if (origin)
 			notice(adminserv->nick, origin->nick, _("%d: Disconnected from %s at %s UTC"), request->count, server, ts);
-	}
-}
-
-static void handle_whowas_loggedin(sourceinfo_t *si, int parc, char *parv[])
-{
-	if (!whowas_requests)
-		slog(LG_DEBUG, ADMINSERV_WHOWAS_MODULE_NAME " received RPL_WHOWAS_LOGGEDIN, but whowas_requests = NULL");
-
-	else if (!whowas_requests->head)
-		slog(LG_DEBUG, ADMINSERV_WHOWAS_MODULE_NAME " recieved RPL_WHOWAS_LOGGEDIN, but whowas_requests->head = NULL");
-
-	else
-	{
-		mowgli_node_t *head = whowas_requests->head;
-		whowas_request_t *request = head->data;
-		user_t *origin = user_find_named(request->origin);
-
-		if (origin)
-			notice(adminserv->nick, origin->nick, _("%d: Was logged in as %s"), request->count, parv[2]);
 	}
 }
 
@@ -222,14 +184,6 @@ void handle_err_wasnosuchnick(sourceinfo_t *si, int parc, char *parv[])
 
 void _modinit(module_t *module)
 {
-	if (!module_find_published("protocol/charybdis"))
-	{
-		slog(LG_ERROR, "module modules/protocol/charybdis is not loaded; modules/contrib/adminserv/whowas requires this module.");
-		slog(LG_ERROR, "either load this module (if you are connected to charybdis) or remove modules/contrib/adminserv/whowas from your atheme.conf");
-		module->mflags = MODTYPE_FAIL;
-
-		return;
-	}
 
 	adminserv = service_find(ADMINSERV);
 
@@ -242,9 +196,7 @@ void _modinit(module_t *module)
 	 * uplink and we listen for the response with these handlers.
 	 */
 	pcommand_add(RPL_WHOWAS_USER, handle_whowas_user, 6, MSRC_SERVER);
-	pcommand_add(RPL_WHOWAS_ACTUALLY, handle_whowas_actually, 4, MSRC_SERVER);
 	pcommand_add(RPL_WHOWAS_SERVER, handle_whowas_server, 4, MSRC_SERVER);
-	pcommand_add(RPL_WHOWAS_LOGGEDIN, handle_whowas_loggedin, 4, MSRC_SERVER);
 	pcommand_add(RPL_ENDOF_WHOWAS, handle_endof_whowas, 0, MSRC_SERVER);
 	pcommand_add(RPL_ERR_WASNOSUCHNICK, handle_err_wasnosuchnick, 0, MSRC_SERVER);
 }
@@ -258,9 +210,7 @@ void _moddeinit(module_unload_intent_t intent)
 		service_unbind_command(adminserv, &as_whowas);
 
 		pcommand_delete(RPL_WHOWAS_USER);
-		pcommand_delete(RPL_WHOWAS_ACTUALLY);
 		pcommand_delete(RPL_WHOWAS_SERVER);
-		pcommand_delete(RPL_WHOWAS_LOGGEDIN);
 		pcommand_delete(RPL_ENDOF_WHOWAS);
 		pcommand_delete(RPL_ERR_WASNOSUCHNICK);
 

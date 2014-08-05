@@ -24,9 +24,7 @@
 
 /* IRC Numerics for WHOWAS replies. */
 #define RPL_WHOWAS_USER "314"
-#define RPL_WHOWAS_ACTUALLY "338"
 #define RPL_WHOWAS_SERVER "312"
-#define RPL_WHOWAS_LOGGEDIN "330"
 #define RPL_ENDOF_WHOWAS "369"
 #define RPL_ERR_WASNOSUCHNICK "406"
 
