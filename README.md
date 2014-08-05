@@ -6,11 +6,9 @@ A service for atheme offering "psuedo-oper" services.
 Compatability
 -------------
 
-This has only been tested with Charybdis and relies on the
-modules/protocol/charybdis module for WHOWAS requests. If you try to load
-modules/contrib/adminserv/whowas without first loading the charybdis module,
-module loading will fail. Only load the whowas module after loading the
-Charybdis module and only if you are actually connected to Charybdis.
+This specific fork of AdminServ by GitHub/brennie works only with UnrealIRCd
+Thank You to Tiddles for the UnrealIRCd customizations, and brennie for AdminServ!
+
 
 Building & Installation
 -----------------------
@@ -19,7 +17,7 @@ Clone the repository inside of atheme and run make:
 
 ````
 cd atheme/modules/contrib
-git clone https://github.com/brennie/adminserv.git
+git clone https://github.com/IRC4Fun/adminserv.git
 cd adminserv
 make
 make install
